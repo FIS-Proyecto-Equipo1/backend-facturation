@@ -2,10 +2,28 @@ var express = require('express');
 var bodyParser = require('body-parser');
 const Bill = require ('./bills');
 
+const dbConnect = require('./db.js');
+//const app = require ('./server.js');
+
 var BASE_API_PATH = "/api/v1";
 
 var app = express();
 app.use(bodyParser.json());
+
+var port = (process.env.PORT || 3000); 
+//DUDA: SI PONGO EL 3000 ME FALLA, SI PONGO LOS DATOS DE CONEXION EN OTRO FICHERO TAMBIÉN ME FALLA
+
+console.log("Starting API server..." +port);
+
+dbConnect().then(
+    ()=>{
+       app.listen(port);
+       console.log("Server ready!"); 
+    },
+    err => {
+        console.log("Connection error: ");
+    }
+);
 
 app.get("/", (req, res) => {
     res.send("<html><body><h1>My server</h1></body></html>");

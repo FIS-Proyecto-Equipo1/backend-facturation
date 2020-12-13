@@ -1,4 +1,4 @@
-const dbConnect = require('./db.js');
+/*const dbConnect = require('./db.js');
 const app = require ('./server.js');
 
 var port = (process.env.PORT || 3000);
@@ -13,4 +13,4 @@ dbConnect().then(
     err => {
         console.log("Connection error: ");
     }
-)
+);*/
