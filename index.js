@@ -14,7 +14,3 @@ dbConnect().then(
         console.log("Connection error: ");
     }
 )
-
-app.listen(port);
-
-console.log("Server ready!");
