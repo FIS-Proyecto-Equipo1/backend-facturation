@@ -10,23 +10,13 @@ var BASE_API_PATH = "/api/v1";
 var app = express();
 app.use(bodyParser.json());
 
-var port = (process.env.PORT || 3000); 
+var port = (process.env.PORT || 5000); 
 //DUDA: SI PONGO EL 3000 ME FALLA, SI PONGO LOS DATOS DE CONEXION EN OTRO FICHERO TAMBIÉN ME FALLA
 
 console.log("Starting API server..." +port);
 
-dbConnect().then(
-    ()=>{
-       app.listen(port);
-       console.log("Server ready!"); 
-    },
-    err => {
-        console.log("Connection error: ");
-    }
-);
-
 app.get("/", (req, res) => {
-    res.send("<html><body><h1>My server</h1></body></html>");
+    res.send("<html><body><h1>FACTURATIONNNN</h1></body></html>");
 });
 
 app.get(BASE_API_PATH + "/bills", (req,res) => {
@@ -57,3 +47,12 @@ app.post(BASE_API_PATH + "/bills",(req, res) => {
         }
     });
 });
+dbConnect().then(
+    ()=>{
+       app.listen(port);
+       console.log("Server ready!"); 
+    },
+    err => {
+        console.log("Connection error: ");
+    }
+);

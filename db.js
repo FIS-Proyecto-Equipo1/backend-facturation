@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DB_URL = (process.env.MONGO_URL || 'mongodb+srv://cluster0.6om1x.mongodb.net/facturation--username:yulipala');
+const DB_URL = (process.env.MONGO_URL || 'mongodb+srv://yulipala:RUTA69ruta@cluster0.6om1x.mongodb.net/facturation?retryWrites=true&w=majority');
 
 const dbConnect = function() {
     const db = mongoose.connection;
