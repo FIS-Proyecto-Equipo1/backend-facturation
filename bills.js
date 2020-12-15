@@ -1,14 +1,18 @@
 const mongoose = require ('mongoose');
 
-const contactSchema = new mongoose.Schema({
-    name: String,
-    phone: Number
+const billSchema = new mongoose.Schema({
+    billStatus: String,
+    rate: Number,
+    amount: Number
 });
 
-contactSchema.methods.cleanup = function(){
-    return {name: this.name, phone: this.phone};
+billSchema.methods.cleanup = function(){
+    return {
+         billStatus: this.billStatus,
+         rate: this.rate,
+         amount: this.amount};
 }
 
-const Bill = mongoose.model('Bill', contactSchema);
+const Bill = mongoose.model('Bill', billSchema);
 
 module.exports = Bill;
