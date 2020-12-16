@@ -8,7 +8,7 @@ COPY package-lock.json .
 
 RUN npm install
 
-#RECUERDA CAMBIAR A INDEX CUANDO FUNCIONE
+#RECUERDA CAMBIAR A INDEX CUANDO FUNCIONEe
 COPY server.js .
 COPY db.js .
 COPY bills.js .
