@@ -1,23 +1,22 @@
 const mongoose = require ('mongoose');
 
 const billSchema = new mongoose.Schema({
+    user: String,
     billStatus: String,
     rate: Number,
     amount: Number,
-    id_travel: String,
-    id_duration: String,
-    id_user:String
+    travel: String,
+    duration: String
 });
 
 billSchema.methods.cleanup = function(){
     return {
+        user: this.id_user,
          billStatus: this.billStatus,
          rate: this.rate,
          amount: this.amount,
-         id_travel: this.travel,
-         id_duration: this.id_duration,
-         id_user: this.id_user
-
+         travel: this.travel,
+         duration: this.id_duration
         };
 }
 
