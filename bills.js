@@ -1,23 +1,27 @@
 const mongoose = require ('mongoose');
 
 const billSchema = new mongoose.Schema({
-    user: String,
-    billStatus: String,
+    billNumber: String,
+    name: String,
+    surnames: String,
+    vehicle: String,
+    duration: String,
     rate: Number,
     amount: Number,
-    travel: String,
-    duration: String
+    billStatus: String,
 });
 
 billSchema.methods.cleanup = function(){
     return {
-        user: this.id_user,
-         billStatus: this.billStatus,
-         rate: this.rate,
-         amount: this.amount,
-         travel: this.travel,
-         duration: this.id_duration
-        };
+        billNumber: this.billNumber,
+        name: this.name,
+        surnames: this.surnames,
+        vehicle: this.vehicle,
+        duration: this.duration,
+        rate: this.rate,
+        amount: this.amount,
+        billStatus: this.billStatus,
+    };
 }
 
 const Bill = mongoose.model('Bill', billSchema);

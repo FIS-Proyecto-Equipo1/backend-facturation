@@ -1,1 +1,9 @@
-{"billStatus":"PAID","rate":"3","amount":"2.4"}
+{"billNumber": "111122", 
+"name": "Maria", 
+"surnames": "Suárez", 
+"vehicle":"Car", 
+"duration": "1", 
+"rate":"3",
+"amount":"3,4" ,
+"billStatus":"PAID"
+}
