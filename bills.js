@@ -22,6 +22,7 @@ billSchema.methods.cleanup = function(){
         amount: this.amount,
         billStatus: this.billStatus,
     };
+    
 }
 
 const Bill = mongoose.model('Bill', billSchema);

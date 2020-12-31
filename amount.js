@@ -50,4 +50,7 @@ function durationMinutesConversion (duration){
 function amountCalculation (duration, vehicle){
     var rate = rateCalculation(vehicle);
     return rateConversion(rate)*durationMinutesConversion(duration);
-}*/
+}
+
+module.exports = Amount;
+*/
