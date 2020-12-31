@@ -1,8 +1,8 @@
 
-/*private Double rateCalculation (String vehicle){
-    Double rate;
+/*function rateCalculation (vehicle){
+    var rate;
     switch(vehicle){
-        case "Car":
+        case "Coche":
             rate = 3;
             break;
         case "Moto":
@@ -18,34 +18,36 @@
     return rate;
 }
 
-private Double rateConversion(int rate){
-    Double conversion;
+function rateConversion(rate){
+    var conversion;
     switch(rate){
-        case "3":
+        case 3:
             conversion= 50;
             break;
-        case "2":
+        case 2:
             conversion = 30;
             break;
-         case "1":
+         case 1:
              conversion = 10;
              break;
              default:
                 console.error("Not admitted rate!!");   
     }
+    return conversion
 }
-private Double durationMinutesConversion (Datatime duration){
-   ArrayList <String> durationSplited = duration.splitBy(":");
-   String hours = durationSplited.get[0]*60; 
-   String min = durationSplited.get[1];
-   String sec = 1;
-   if(durationSplited.get[2]==0);
-       sec = 0;
-   }
+
+function durationMinutesConversion (duration){
+    let durationSplited = duration.split(":");
+    var hours = durationSplited[0]*60;
+    var min = parseInt(durationSplited[1], 10);
+    var sec = 1;
+    if(parseInt(durationSplited[2], 10) === 0){
+        sec = 0;
+    }
     return hours+min+sec;
 }
 
-public Double amountCalculation (String duration, String vehicle){
-    String rate = rateCalculation(vehicle);
+function amountCalculation (duration, vehicle){
+    var rate = rateCalculation(vehicle);
     return rateConversion(rate)*durationMinutesConversion(duration);
 }*/
