@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 const Bill = require ('./bills');
 //const Amount = require('./amount');
 const { updateOne, findByIdAndUpdate } = require('./bills');
+const BillsResource = require ('./billsResource');
 
 var BASE_API_PATH = "/api/v1";
 
@@ -26,6 +27,19 @@ app.get(BASE_API_PATH + "/bills", (req,res) => {
             }));
         }
     });
+});
+
+app.get(BASE_API_PATH + "/bills", (req,res) => {
+    console.log(Date() + " - GET /bills");
+    
+    BillsResource.getAllBills()
+    .then((body) => {
+        this.response.send(body);
+    })
+    .catch((error =>{
+        console.log ("error: " + error);
+        this.response.sendStatus(500);
+    } ))
 });
 
 //TODO
