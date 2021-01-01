@@ -1,5 +1,5 @@
 
-/*function rateCalculation (vehicle){
+function rateCalculation (vehicle){
     var rate;
     switch(vehicle){
         case "Coche":
@@ -28,10 +28,12 @@ function rateConversion(rate){
             conversion = 30;
             break;
          case 1:
-             conversion = 10;
-             break;
-             default:
-                console.error("Not admitted rate!!");   
+            conversion = 10;
+            break;
+        default:
+            console.error("Not admitted rate!!"); 
+            break;
+
     }
     return conversion
 }
@@ -53,4 +55,3 @@ function amountCalculation (duration, vehicle){
 }
 
 module.exports = Amount;
-*/

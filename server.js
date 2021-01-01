@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 const Bill = require ('./bills');
-const Amount = require('./amount');
+//const Amount = require('./amount');
 const { updateOne, findByIdAndUpdate } = require('./bills');
 
 var BASE_API_PATH = "/api/v1";
@@ -29,17 +29,16 @@ app.get(BASE_API_PATH + "/bills", (req,res) => {
 });
 
 //TODO
-app.get(BASE_API_PATH + "/bills/?billStatus=UNPAID", (req,res) => {
-    console.log(Date() + " - GET /bills/?billStatus=UNPAID");
+app.get(BASE_API_PATH + "/bills/:billStatus", (req,res) => {
+    console.log(Date() + " - GET /bills/?billStatus");
     
     Bill.find({}, (err, bills) => {
         if(err){
             console.log(Date() + "-" + err);
             res.sendStatus(500);
         }else{
-            res.send(bills.map((bill) => {
-                return bill.cleanup();
-            }));
+            res.sendStatus(201);
+            res.send(req.params);
         }
     });
 });
@@ -72,7 +71,7 @@ app.delete(BASE_API_PATH + "/bills",(req, res) => {
     });
 });
 
-app.patch(BASE_API_PATH + "/bills?billNumber={billNumber}",(req, res) => {
+app.patch(BASE_API_PATH + "/bills/:billNumber",(req, res) => {
     console.log(Date() + " - PATCH /bills?billNumber={billNumber}");
     var bill = req.body;
     var id = req.params.id;
