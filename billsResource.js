@@ -1,6 +1,6 @@
 const { json } = require('express');
 const urljoin = require ('url-join');
-const request = require ('request-promise').defaults({json:true});
+const request = require ('request-promise-native').defaults({json:true});
 
 class BillsResource {
     static billsUrl(resourceUrl){
