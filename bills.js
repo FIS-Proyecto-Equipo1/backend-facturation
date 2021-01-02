@@ -1,14 +1,16 @@
 const mongoose = require ('mongoose');
 
+const statusEnum = ['PAID', 'UNPAID'];
+
 const billSchema = new mongoose.Schema({
-    billNumber: String,
-    name: String,
-    surnames: String,
-    vehicle: String,
-    duration: String,
-    rate: Number,
-    amount: Number,
-    billStatus: String,
+    billNumber: {type: String, unique: true, required: true},
+    name: {type: String, required: true},
+    surnames: {type: String, required: true},
+    vehicle: {type: String, required: true},
+    duration: {type: String, required: true},
+    rate: {type: String, required: true},
+    amount: {type: Number, required: true},
+    billStatus: {type: String, required: true, enum: statusEnum},
 });
 
 billSchema.methods.cleanup = function(){
