@@ -1,4 +1,4 @@
-/*const { json } = require('express');
+const { json } = require('express');
 const urljoin = require ('url-join');
 const request = require ('request-promise-native').defaults({json:true});
 
@@ -8,11 +8,11 @@ class BillsResource {
         return urljoin (billsServer, resourceUrl);
     }
 
-    static requestHeaders(){
+    /*static requestHeaders(){
         const billsKey = (process.env.BILLS_APIKEY || "WEFWEF");
         return {
             apikey : billsKey};
-    }
+    }*/
 
     static getAllBills() {
         const url = BillsResource.billsUrl("/bills");
@@ -23,4 +23,4 @@ class BillsResource {
         
     }
 }
-module.exports = BillsResource;*/
+module.exports = BillsResource;
