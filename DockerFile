@@ -8,11 +8,12 @@ COPY package-lock.json .
 
 RUN npm install
 
-#RECUERDA CAMBIAR A INDEX CUANDO FUNCIONEe
-COPY server.js .
+COPY index.js .
 COPY db.js .
 COPY bills.js .
-
-EXPOSE 3000
+COPY server.js .
+COPY billsResource.js .
+ 
+EXPOSE 5002
 
 CMD npm start
