@@ -2,7 +2,7 @@ const mongoose = require ('mongoose');
 
 mongoose.set('useFindAndModify',false);
 
-const statusEnum = ['PAID', 'UNPAID'];
+const statusEnum = ['Pagado', 'No pagado'];
 
 const billSchema = new mongoose.Schema({
     billNumber: {type: String, unique: true, required: true},
