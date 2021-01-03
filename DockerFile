@@ -8,11 +8,7 @@ COPY package-lock.json .
 
 RUN npm install
 
-COPY index.js .
-COPY db.js .
-COPY bills.js .
-COPY server.js .
-COPY billsResource.js .
+COPY *.js ./
  
 EXPOSE 5002
 

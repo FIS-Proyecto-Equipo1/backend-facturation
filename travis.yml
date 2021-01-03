@@ -9,7 +9,7 @@ before_install:
 install:
   - npm install
 script:
-  - docker build -t facturationservice .
+  - docker build -t backendfacturation .
 deploy:
   provider: script
   skip_clean_up: true
