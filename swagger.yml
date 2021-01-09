@@ -158,9 +158,9 @@ paths:
         - "No pagado"
         - "Pagado"
       - name: "api_key"
-         in: "header"
-         required: false
-         type: "string"
+        in: "header"
+        required: false
+        type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -195,8 +195,6 @@ definitions:
       billNumber:
         type: "string"
         example: "UR12345"
-      category:
-        $ref: "#/definitions/Bill"
       name:
         type: "string"
       surnames:
@@ -218,3 +216,10 @@ definitions:
       amount: 
         type: "number"
         description: "The amount will be calculated with the duration of the travel and the vehicle selected"
+      billStatus:
+        type: "string"
+        enum: 
+        - "Pagado"
+        - "No pagado"
+
+        
