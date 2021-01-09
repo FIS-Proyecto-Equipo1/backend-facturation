@@ -55,20 +55,22 @@ app.get(BASE_API_PATH + "/bills", (req,res) => {
     })
 })*/
 
-app.get(BASE_API_PATH + "/bills/:billStatus", (req, res)  => {
-    Bill.findOne({"billStatus": req.params.billStatus}, (err, bill) => {
+
+app.get(BASE_API_PATH + "/bills/billStatus/:billStatus", (req, res)  => {
+    Bill.find({"billStatus": req.params.billStatus}, (err, bills) => {
         if(err){
             console.log(Date()+" - "+ err);
             res.sendStatus(500);
         }else{
-            if(bill == null){
+            if(req.params.billStatus != 'PAID' && req.params.billStatus != 'UNPAID'){
                 console.log(Date() + " GET /bills/"+req.params.billStatus +" - Invalid");
                 res.sendStatus(404);
             }
             else    
             {
                 console.log(Date() + " GET /bills/"+req.params.billStatus);
-                res.send(billStatus.cleanup());
+                res.send(bills.map((bill) => {
+                    return bill.cleanup();}));
             }
         }
     })
@@ -87,7 +89,7 @@ app.get(BASE_API_PATH + "/bills/:billNumber", (req, res)  => {
             else    
             {
                 console.log(Date() + " GET /bills/ "+req.params.billNumber);
-                res.send(billNumber.cleanup());
+                res.send(bill.cleanup())
             }
         }
     })
