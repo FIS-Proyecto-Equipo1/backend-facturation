@@ -1,0 +1,220 @@
+swagger: "2.0"
+info:
+  description: "This is a basic facturation microservice part of Urbanio"
+  version: "1.0.0"
+  title: "Facturation service"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "heroku"
+basePath: "/v1/api"
+tags:
+- name: "bill"
+  description: "Everything about your Bills"
+schemes:
+- "https"
+paths:
+  /bills:
+    post:
+      tags:
+      - "bill"
+      summary: "Add a new bill"
+      description: ""
+      operationId: "newBill"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Bill to be added to the backoffice"
+        required: true
+        schema:
+          $ref: "#/definitions/Bill"
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+        "500":
+          description: "Internal server error"
+    delete:
+      tags:
+      - "bill"
+      summary: "Deletes a bill"
+      description: ""
+      operationId: "deleteBill"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Bill to be deleted"
+        required: true
+        schema:
+          $ref: "#/definitions/Bill"
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Bill not found"
+    put:
+      tags:
+      - "bill"
+      summary: "Update an existing bill"
+      description: ""
+      operationId: "editBill"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Bill object that needs to be added to the backoffice"
+        required: true
+        schema:
+          $ref: "#/definitions/Bill"
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Bill not found"
+        "201":
+          description: "successful operation"
+    get:
+      tags:
+      - "bill"
+      summary: "Finds Bills"
+      description: "Returns all bills"
+      operationId: "findBills"
+      parameters:
+       - name: "api_key"
+         in: "header"
+         required: false
+         type: "string"
+      produces:
+      - "application/json"
+      responses:
+        "201":
+          description: "successful operation"
+        "500":
+          description: "Internal server error"
+      
+  /bills/{billNumber}:
+    get:
+      tags:
+      - "bill"
+      summary: "Finds Bill by number"
+      description: "Returns an unique bill"
+      operationId: "findBillByBillNumber"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "billNumber"
+        in: "path"
+        description: "Bill number values that need to be considered for filter"
+        required: true
+        type: "string"
+        default: "available"
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Bill"
+        "400":
+          description: "Invalid status value"
+      
+
+  /bills/{billStatus}:
+    get:
+      tags:
+      - "bill"
+      summary: "Find bill by status"
+      description: "Returns a list of bills filtered by status"
+      operationId: "getBillByBillStatus"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "billStatus"
+        in: "path"
+        description: "A list of bills filtered by status"
+        required: true
+        type: "string"
+        enum:
+        - "No pagado"
+        - "Pagado"
+      - name: "api_key"
+         in: "header"
+         required: false
+         type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Bill"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Bill not found"
+      
+    
+    
+  
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Bill:
+    type: "object"
+    required:
+    - "billNumber"
+    - "name"
+    - "surnames"
+    - "vehicle"
+    - "duration"
+    - "rate"
+    - "billStatus"
+    
+    properties:
+      billNumber:
+        type: "string"
+        example: "UR12345"
+      category:
+        $ref: "#/definitions/Bill"
+      name:
+        type: "string"
+      surnames:
+        type: "string"
+      vehicle:
+        type: "string"
+        enum: 
+        - "Coche"
+        - "Moto"
+        - "Bici"
+        - "Patín"
+      duration:
+        type: "string"
+        description: "Duration of the travel done"
+        example: "00:15:42"
+      rate:
+        type: "string"
+        description: "The rate depends on the vehicle"
+      amount: 
+        type: "number"
+        description: "The amount will be calculated with the duration of the travel and the vehicle selected"

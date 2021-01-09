@@ -3,9 +3,10 @@ const mongoose = require ('mongoose');
 mongoose.set('useFindAndModify',false);
 
 const statusEnum = ['Pagado', 'No pagado'];
+const BILL_NUMBER_REG_EX=new RegExp('[A-Z]{2}[0-9]{5}'); 
 
 const billSchema = new mongoose.Schema({
-    billNumber: {type: String, unique: true, required: true},
+    billNumber: {type: String, unique: true, required: true, match: BILL_NUMBER_REG_EX},
     name: {type: String, required: true},
     surnames: {type: String, required: true},
     vehicle: {type: String, required: true},
