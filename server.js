@@ -62,7 +62,7 @@ app.get(BASE_API_PATH + "/bills/billStatus/:billStatus", (req, res)  => {
             console.log(Date()+" - "+ err);
             res.sendStatus(500);
         }else{
-            if(req.params.billStatus != 'PAID' && req.params.billStatus != 'UNPAID'){
+            if(req.params.billStatus != 'Pagado' && req.params.billStatus != 'No pagado'){
                 console.log(Date() + " GET /bills/"+req.params.billStatus +" - Invalid");
                 res.sendStatus(404);
             }
@@ -71,6 +71,7 @@ app.get(BASE_API_PATH + "/bills/billStatus/:billStatus", (req, res)  => {
                 console.log(Date() + " GET /bills/"+req.params.billStatus);
                 res.send(bills.map((bill) => {
                     return bill.cleanup();}));
+
             }
         }
     })
@@ -124,7 +125,7 @@ app.delete(BASE_API_PATH + "/bills",(req, res) => {
 });
 
 app.put(BASE_API_PATH + "/bills/:billNumber",(req, res) => {
-    console.log(Date() + " - PUT /bills?billNumber={billNumber}");
+    console.log(Date() + " - PUT /bills/billNumber={billNumber}");
     let billNumber = req.params.billNumber;
     let update_bill = req.body;
     Bill.findOneAndUpdate({"billNumber": billNumber}, update_bill, { runValidators: true }, (err, bill_update) => {
