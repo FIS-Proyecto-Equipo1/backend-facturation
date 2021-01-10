@@ -57,10 +57,10 @@ function rateConversion(rate){
 
 function durationMinutesConversion (duration){
     let durationSplited = duration.split(":");
-    let hours = durationSplited[0] * 60;
-    let min = durationSplited[1];
+    let hours = parseInt(durationSplited[0] * 60);
+    let min = parseInt(durationSplited[1]);
     let sec = 1;
-    if(durationSplited[2] === 0){
+    if(parseInt(durationSplited[2]) === 0){
         sec = 0;
     }
     return hours+min+sec;
@@ -70,7 +70,7 @@ function amountCalculation (duration, vehicle){
     let rate = rateCalculation(vehicle);
     let minTax = 1.25;
     let amount = rateConversion(rate) * durationMinutesConversion(duration);
-    if(amount>=minTax){
+    if(amount/100>=minTax){
         return amount;
     } else{
         return minTax;
