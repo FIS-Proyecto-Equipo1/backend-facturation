@@ -17,7 +17,7 @@ const billSchema = new mongoose.Schema({
 });
 
 function rateCalculation (vehicle){
-    var rate;
+    let rate;
     switch(vehicle){
         case "Coche":
             rate = 3;
@@ -27,7 +27,7 @@ function rateCalculation (vehicle){
             break;
         case "Bici":
             rate = 1;
-            break;
+            break;  
         default:
             rate = 1;   
             break;  
@@ -36,7 +36,7 @@ function rateCalculation (vehicle){
 }
 
 function rateConversion(rate){
-    var conversion;
+    let conversion;
     switch(rate){
         case 3:
             conversion = 50;
@@ -67,8 +67,14 @@ function durationMinutesConversion (duration){
 }
 
 function amountCalculation (duration, vehicle){
-    var rate = rateCalculation(vehicle);
-    return rateConversion(rate) * durationMinutesConversion(duration);
+    let rate = rateCalculation(vehicle);
+    let minTax = 1.25;
+    let amount = rateConversion(rate) * durationMinutesConversion(duration);
+    if(amount>=minTax){
+        return amount;
+    } else{
+        return minTax;
+    }
 }
 
 billSchema.methods.cleanup = function(){
