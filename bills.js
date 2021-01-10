@@ -69,8 +69,8 @@ function durationMinutesConversion (duration){
 function amountCalculation (duration, vehicle){
     let rate = rateCalculation(vehicle);
     let minTax = 1.25;
-    let amount = rateConversion(rate) * durationMinutesConversion(duration);
-    if(amount/100>=minTax){
+    let amount = (rateConversion(rate) * durationMinutesConversion(duration))/100;
+    if(amount>=minTax){
         return amount;
     } else{
         return minTax;
