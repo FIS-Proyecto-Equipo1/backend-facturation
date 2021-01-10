@@ -113,7 +113,7 @@ app.post(BASE_API_PATH + "/bills",(req, res) => {
 app.delete(BASE_API_PATH + "/bills/:billNumber", (req, res)  => {
         let billNumber = req.params.billNumber;
 
-        Bill.deleteOne({"billNumber": billNumber}, (err, billDelete) => {
+        Bill.findOneAndDelete({"billNumber": billNumber}, (err, billDelete) => {
             if(err == null && billDelete == null)
             {    
                 var auxErr = new Error("Bill not found " + billNumber);
