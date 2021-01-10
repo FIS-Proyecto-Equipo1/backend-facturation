@@ -110,18 +110,26 @@ app.post(BASE_API_PATH + "/bills",(req, res) => {
     });
 });
 
-app.delete(BASE_API_PATH + "/bills",(req, res) => {
-    console.log(Date() + " - DELETE /bills");
-    var bill = req.body;
-    
-    Bill.findOneAndDelete(bill, (err) => {
-        if (err){
-            console.log(Date() + "-" + err);
-            res.sendStatus(500);
-        } else {
-            res.sendStatus(201);
-        }
-    });
+app.delete(BASE_API_PATH + "/vehicles/:matricula", (req, res)  => {
+        let matricula = req.params.billNumber;
+
+        Bill.findOneAndDelete({"billNumber": billNumber}, (err, billDelete) => {
+            if(err == null && billDelete == null)
+            {    
+                var auxErr = new Error("Bill not found " + billNumber);
+                console.log(Date()+" - "+auxErr);
+                res.sendStatus(404)
+            }
+            else if(err)
+            {    
+                console.log(err);
+                res.sendStatus(500)
+            }else
+            {
+                console.log(Date() + " DELETE /bills/" + billNumber)
+                res.status(204).send({message : "Bill " + billNumber+ " deleted"});
+            }
+        });  
 });
 
 app.put(BASE_API_PATH + "/bills/:billNumber",(req, res) => {
