@@ -39,13 +39,13 @@ function rateConversion(rate){
     let conversion;
     switch(rate){
         case 3:
-            conversion = 50;
+            conversion = 15;
             break;
         case 2:
-            conversion = 30;
+            conversion = 10;
             break;
          case 1:
-            conversion = 10;
+            conversion = 5;
             break;
         default:
             console.error("Not admitted rate!!"); 
