@@ -10,8 +10,8 @@ const billSchema = new mongoose.Schema({
     name: {type: String, required: true},
     surnames: {type: String, required: true},
     vehicle: {type: String, required: true},
-    duration: {type: String, required: true},
-    rate: {type: String, required: true},
+    duration: {type: String},
+    rate: {type: String},
     amount: {type: Number},
     billStatus: {type: String, required: true, enum: statusEnum},
 });
@@ -57,9 +57,9 @@ function rateConversion(rate){
 
 function durationMinutesConversion (duration){
     let durationSplited = duration.split(":");
-    var hours = durationSplited[0] * 60;
-    var min = durationSplited[1];
-    var sec = 1;
+    let hours = durationSplited[0] * 60;
+    let min = durationSplited[1];
+    let sec = 1;
     if(durationSplited[2] === 0){
         sec = 0;
     }
@@ -78,7 +78,7 @@ billSchema.methods.cleanup = function(){
         surnames: this.surnames,
         vehicle: this.vehicle,
         duration: this.duration,
-        rate: this.rate,
+        rate: rateCalculation(this.vehicle),
         amount: amountCalculation(this.duration,this.vehicle),
         billStatus: this.billStatus,
     }; 
