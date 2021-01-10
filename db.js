@@ -6,5 +6,5 @@ const dbConnect = function() {
     db.on('error', console.error.bind(console, 'connection error: '));
     return mongoose.connect(DB_URL, { useNewUrlParser: true });
 }
-
+//test
 module.exports = dbConnect;
