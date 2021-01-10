@@ -6,13 +6,13 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost:5002"
+host: "https://backend-facturacion-1.herokuapp.com/"
 basePath: "/v1/api"
 tags:
 - name: "bill"
   description: "Everything about your Bills"
 schemes:
-- "http"
+- "https"
 paths:
   /bills:
     post:
