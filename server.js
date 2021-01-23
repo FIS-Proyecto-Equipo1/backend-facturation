@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 const Bill = require ('./bills');
 const { updateOne, findByIdAndUpdate } = require('./bills');
-const BillsResource = require ('./billsResource');
+const TravelsResource = require ('./travelsResource');
 
 var BASE_API_PATH = "/api/v1";
 
@@ -13,23 +13,14 @@ app.get("/", (req, res) => {
     res.send("<html><body><h1>FACTURATIONNNN</h1></body></html>");
 });
 
-/*app.get(BASE_API_PATH + "/bills", (req,res) => {
-    console.log(Date() + " - GET /bills");
-    
-    Bill.find({}, (err, bills) => {
-        if(err){
-            console.log(Date() + "-" + err);
-            res.sendStatus(500);
-        }else{
-            res.send(bills.map((bill) => {
-                return bill.cleanup();
-            }));
-        }
-    });
-});*/
-
 app.get(BASE_API_PATH + "/bills", (req,res) => {
+    idCliente = req.header('x-user');
+    console.log(`user: ${idCliente}`);
     console.log(Date() + " - GET /bills");
+    TravelsResource.getFinishedTravels()
+    .then((body) => {
+    res.send(body);
+    })
     
     Bill.find(req.query, (err, bills) => {
         if(err){
@@ -42,19 +33,6 @@ app.get(BASE_API_PATH + "/bills", (req,res) => {
         }
     })
 });
-
-/*app.get(BASE_API_PATH + '/bills', (req, res) => {
-    console.log('GET /bills');
-    BillsResource.getAllBills()
-    .then((body) => {
-    res.send(body);
-    })
-    .catch((error) => {
-        console.log("error: " + error);
-        res.sendStatus(500);
-    })
-})*/
-
 
 app.get(BASE_API_PATH + "/bills/billStatus/:billStatus", (req, res)  => {
     Bill.find({"billStatus": req.params.billStatus}, (err, bills) => {
