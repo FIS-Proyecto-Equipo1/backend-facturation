@@ -10,7 +10,7 @@ var app = express();
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    res.send("<html><body><h1>FACTURATIONNNN</h1></body></html>");
+    res.send("<html><body><h1>FACTURATION</h1></body></html>");
 });
 
 /*app.get(BASE_API_PATH + "/bills", (req,res) => {
@@ -39,6 +39,38 @@ app.get(BASE_API_PATH + "/bills", (req,res) => {
             console.log(Date() + " GET /bills")
             res.send(bills.map((bill) => {
                 return bill.cleanup();}));
+        }
+    })
+});
+
+
+app.get(BASE_API_PATH + "/bills/generatePdf/:billNumber", (req,res) => {
+    Bill.findOne({"billNumber":req.params.billNumber}, (err, bill) => {
+        if(err){
+            console.log(Date()+" - "+ err);
+            res.sendStatus(500);
+        }else{
+            if(bill == null){
+                console.log(Date() + " GET /bills/ "+req.params.billNumber +" - Invalid");
+                res.sendStatus(404);
+            }
+            else    
+            {
+                const pdf = require('html-pdf');
+                var fs = require('fs');
+                const content = '<h1>Factura: ' + bill.billNumber + '</h1>' + '<p><strong>Nombre: </strong>' + bill.name + ' ' + bill.surname + '</p>'
+                + '<p><strong>Vehículo: </strong>' + bill.vehicle + '</p>' + '<p><strong>Duración: </strong>' + bill.duration + '</p>'
+                + '<p><strong>Importe: </strong>' + parseFloat(Math.round(bill.amount)).toFixed(2) + "€" + '</p>' + '<p><strong>Estado: </strong>' + bill.billStatus + '</p>' 
+            
+                pdf.create(content).toFile('./pdf.pdf', function(err, res) {
+                    if (err){
+                        console.log(err);
+                    } else {
+                        console.log(res);
+                    }
+                })
+                res.send(bill.cleanup())
+            }
         }
     })
 });
