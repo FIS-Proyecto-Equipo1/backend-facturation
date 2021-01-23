@@ -58,7 +58,6 @@ app.get(BASE_API_PATH + "/bills/generatePdf/:billNumber", (req,res) => {
             {
                 const pdf = require('html-pdf');
                 var fs = require('fs');
-                var stream = require('stream');
                 const fileName = 'pdf.pdf'
                 const content = '<h1>Factura: ' + bill.billNumber + '</h1>' + '<p><strong>Nombre: </strong>' + bill.name + ' ' + bill.surname + '</p>'
                 + '<p><strong>Vehículo: </strong>' + bill.vehicle + '</p>' + '<p><strong>Duración: </strong>' + bill.duration + '</p>'
@@ -68,12 +67,11 @@ app.get(BASE_API_PATH + "/bills/generatePdf/:billNumber", (req,res) => {
                     if (err){
                         console.log(err);
                     } else {
-                        var readStream = new stream.PassThrough();
-                        readStream.end(buffer);
-                        res.set('Content-disposition', 'attachment; filename=' + fileName);
-                        res.set('Content-Type', 'application/pdf');
-
-                        readStream.pipe(res);
+                        var savedFilePath = '/tmp/' + fileName;
+                        console.log(buffer)
+                        fs.writeFile(savedFilePath, buffer, function() {
+                            res.status(200).download(savedFilePath, fileName);
+                        });
                     }
                 })
             }
