@@ -58,7 +58,7 @@ app.get(BASE_API_PATH + "/bills/generatePdf/:billNumber", (req,res) => {
                     if (err){
                         console.log(err);
                     } else {
-                        var savedFilePath = '/tmp/' + fileName;
+                        var savedFilePath = './tmp/' + fileName;
                         console.log(buffer)
                         fs.writeFile(savedFilePath, buffer, function() {
                             res.status(200).download(savedFilePath, fileName);
