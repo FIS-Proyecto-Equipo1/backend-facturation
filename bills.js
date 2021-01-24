@@ -7,9 +7,11 @@ const BILL_NUMBER_REG_EX=new RegExp('[A-Z]{2}[0-9]{5}');
 
 const billSchema = new mongoose.Schema({
     billNumber: {type: String, unique: true, required: true, match: BILL_NUMBER_REG_EX},
-    name: {type: String, required: true},
-    surnames: {type: String, required: true},
-    vehicle: {type: String, required: true},
+    id_client: {type: String, required: true},
+    name: {type: String},
+    surnames: {type: String},
+    id_vehicle: {type: String, required:true},
+    vehicle: {type: String},
     duration: {type: String},
     rate: {type: String},
     amount: {type: Number},
@@ -80,8 +82,10 @@ function amountCalculation (duration, vehicle){
 billSchema.methods.cleanup = function(){
     return {
         billNumber: this.billNumber,
+        id_client: this.id_client,
         name: this.name,
         surnames: this.surnames,
+        id_vehicle: this.id_vehicle,
         vehicle: this.vehicle,
         duration: this.duration,
         rate: rateCalculation(this.vehicle),

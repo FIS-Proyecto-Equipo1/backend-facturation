@@ -4,23 +4,30 @@ const request = require ('request-promise-native').defaults({json:true});
 
 class BillsResource {
     static billsUrl(resourceUrl){
-        const billsServer = (process.env.BILLS_URL || "http://localhost:3000/api/v1");
+        const billsServer = (process.env.BILLS_URL || "https://backend-facturacion-1.herokuapp.com");
         return urljoin (billsServer, resourceUrl);
     }
 
-    /*static requestHeaders(){
+    static requestHeaders(){
         const billsKey = (process.env.BILLS_APIKEY || "WEFWEF");
         return {
             apikey : billsKey};
-    }*/
+    }
 
-    static getAllBills() {
-        const url = BillsResource.billsUrl("/bills");
-        const options = {
-            headers: BillsResource.requestHeaders()
+    static postBills(id_client, id_vehicle, duration) {
+        console.log("postBills " + matricula + ", " + estado)
+        const url = BillsResource.billsUrl("/api/v1/bills");
+        var body = {
+            id_client: id_client,
+            id_vehicle: id_vehicle,
+            duration: duration,
+            billStatus: "No pagado"
         }
-        return request.get(url, options);
-        
+        const options = {
+            headers: BillsResource.requestHeaders(),
+            body: body
+        }
+        return request.post(url, options);
     }
 }
 module.exports = BillsResource;

@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 const Bill = require ('./bills');
 const { updateOne, findByIdAndUpdate } = require('./bills');
-const TravelsResource = require ('./travelsResource');
+const VehiclesResource = require('./vehiclesResource');
 
 var BASE_API_PATH = "/api/v1";
 
@@ -17,10 +17,6 @@ app.get(BASE_API_PATH + "/bills", (req,res) => {
     idCliente = req.header('x-user');
     console.log(`user: ${idCliente}`);
     console.log(Date() + " - GET /bills");
-    TravelsResource.getFinishedTravels()
-    .then((body) => {
-    res.send(body);
-    })
     
     Bill.find(req.query, (err, bills) => {
         if(err){
@@ -126,7 +122,24 @@ app.get(BASE_API_PATH + "/bills/:billNumber", (req, res)  => {
 app.post(BASE_API_PATH + "/bills",(req, res) => {
     console.log(Date() + " - POST /bills");
     var bill = req.body;
+    id_cliente = req.header('x-user')
+
+     // Obtenemos los datos del usuario
+     UsersResource.getUser(id_cliente)
+     .then((user => {
     
+        bill.username = user.nombre;
+        bill.surname = user.apellidos;
+        bill.id_cliente = id_cliente;
+     
+    }));
+
+     // Obtenemos los datos del vehiculo
+     VehiclesResource.getVehicle(bill.id_vehicle)
+     .then((vehicle =>{
+         bill.vehicle = vehicle.tipo;
+     }));
+
     Bill.create(bill, (err) => {
         if (err){
             console.log(Date() + "-" + err);
