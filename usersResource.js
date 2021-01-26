@@ -3,7 +3,6 @@ const request = require('request-promise-native').defaults({json: true})
 
 
 class UsersResource {
-    static STATUS_DISPONIBLE = "DISPONIBLE"
     
     static usersUrl(resourceUrl) {
         const usersServer = (process.env.AUTENTICACION_URL || 'https://urbanio-autenticacion.herokuapp.com');

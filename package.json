@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "heroku": "^7.47.5",
     "html-pdf": "^2.2.0",
-    "mongoose": "^5.11.7",
+    "mongoose": "^5.11.13",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "stripe": "^8.129.0",
