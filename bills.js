@@ -6,7 +6,7 @@ const statusEnum = ['Pagado', 'No pagado'];
 const BILL_NUMBER_REG_EX=new RegExp('[A-Z]{2}[0-9]{5}'); 
 
 const billSchema = new mongoose.Schema({
-    billNumber: {type: String, unique: true, required: true, match: BILL_NUMBER_REG_EX},
+    billNumber: {type: String, unique: true, match: BILL_NUMBER_REG_EX},
     id_client: {type: String, required: true},
     name: {type: String},
     surnames: {type: String},
