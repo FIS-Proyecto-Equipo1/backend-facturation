@@ -124,6 +124,66 @@ app.get(BASE_API_PATH + "/bills/:billNumber", (req, res) => {
     })
 });
 
+function rateCalculation (vehicle){
+    let rate;
+    switch(vehicle){
+        case "Coche":
+            rate = 3;
+            break;
+        case "Moto":
+            rate = 2;
+            break;
+        case "Bici":
+            rate = 1;
+            break;  
+        default:
+            rate = 1;   
+            break;  
+    }
+    return rate;
+}
+
+function rateConversion(rate){
+    let conversion;
+    switch(rate){
+        case 3:
+            conversion = 15;
+            break;
+        case 2:
+            conversion = 10;
+            break;
+         case 1:
+            conversion = 5;
+            break;
+        default:
+            console.error("Not admitted rate!!"); 
+            break;
+
+    }
+    return conversion
+}
+
+function durationMinutesConversion (duration){
+    let durationSplited = duration.split(":");
+    let hours = parseInt(durationSplited[0] * 60);
+    let min = parseInt(durationSplited[1]);
+    let sec = 1;
+    if(parseInt(durationSplited[2]) === 0){
+        sec = 0;
+    }
+    return hours+min+sec;
+}
+
+function amountCalculation (duration, vehicle){
+    let rate = rateCalculation(vehicle);
+    let minTax = 1.25;
+    let amount = (rateConversion(rate) * durationMinutesConversion(duration))/100;
+    if(amount>=minTax){
+        return amount;
+    } else{
+        return minTax;
+    }
+}
 app.post(BASE_API_PATH + "/bills", (req, res) => {
     console.log(Date() + " - POST /bills");
     var bill = req.body;
@@ -144,6 +204,8 @@ app.post(BASE_API_PATH + "/bills", (req, res) => {
             VehiclesResource.getVehicle(bill.id_vehicle)
                 .then((vehicle_type => {
                     bill.vehicle = vehicle_type.tipo;
+                    bill.rate = rateCalculation(bill.vehicle)
+                    bill.amount = amountCalculation(bill.duration,bill.vehicle)
 
                     Bill.create(bill, (err) => {
                         console.log(bill);
