@@ -19,8 +19,20 @@ class UsersResource {
         console.log("getUsuario " + userId)
         const url = UsersResource.usersUrl("/api/v1/user/" + userId);
         console.log(url)
+        var body = {
+            rol: this.rol,
+            email: this.email,
+            nombre: this.nombre,
+            apellidos: this.apellidos,
+            telefono: this.telefono,
+            cuentaBancaria: this.cuentaBancaria,
+            permiso: this.permiso,
+            userId: this.userId
+        }
+    
         const options = {
-            headers: UsersResource.requestHeaders()
+            headers: UsersResource.requestHeaders(),
+            body: body
         }
         return request.get(url, options);
     }

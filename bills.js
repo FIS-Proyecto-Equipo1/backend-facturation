@@ -12,7 +12,7 @@ const billSchema = new mongoose.Schema({
     surnames: {type: String},
     id_vehicle: {type: String, required:true},
     vehicle: {type: String},
-    duration: {type: String},
+    duration: {type: String, required: true},
     rate: {type: String},
     amount: {type: Number},
     billStatus: {type: String, required: true, enum: statusEnum},

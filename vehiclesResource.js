@@ -24,8 +24,16 @@ class VehiclesResource {
         console.log("getVehicle " + matricula)
         const url = VehiclesResource.vehiclesUrl("/api/v1/vehicles/" + matricula);
 
+        var body = {
+            matricula: matricula,
+            tipo: this.tipo,
+            estado: this.estado,
+            permiso: this.permiso,
+            localizacion: this.localizacion
+        }
         const options = {
-            headers: VehiclesResource.requestHeaders()
+            headers: VehiclesResource.requestHeaders(),
+            body: body
         }
         return request.get(url, options);
     }

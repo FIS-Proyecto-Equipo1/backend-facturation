@@ -15,12 +15,22 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-  
+
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
     res.send("<html><body><h1>FACTURATION</h1></body></html>");
 });
+
+function randomBillNumber(){
+    let bill_Number = "US" + getRandomArbitrary(00000,99999);
+    console.log(bill_Number);
+    return bill_Number;
+}
+
+function getRandomArbitrary(min, max) {
+    return parseInt(Math.random() * (max - min) + min);
+  }
 
 app.get(BASE_API_PATH + "/bills", (req,res) => {
     idCliente = req.header('x-user');
@@ -75,19 +85,6 @@ app.get(BASE_API_PATH + "/bills/generatePdf/:billNumber", (req,res) => {
     })
 });
 
-/*app.get(BASE_API_PATH + '/bills', (req, res) => {
-    console.log('GET /bills');
-    BillsResource.getAllBills()
-    .then((body) => {
-    res.send(body);
-    })
-    .catch((error) => {
-        console.log("error: " + error);
-        res.sendStatus(500);
-    })
-})*/
-
-
 app.get(BASE_API_PATH + "/bills/billStatus/:billStatus", (req, res)  => {
     Bill.find({"billStatus": req.params.billStatus}, (err, bills) => {
         if(err){
@@ -131,22 +128,24 @@ app.get(BASE_API_PATH + "/bills/:billNumber", (req, res)  => {
 app.post(BASE_API_PATH + "/bills",(req, res) => {
     console.log(Date() + " - POST /bills");
     var bill = req.body;
-    id_cliente = req.header('x-user')
+    idCliente = req.header('x-user')
 
-     // Obtenemos los datos del usuario
-     UsersResource.getUser(id_cliente)
+    //Asignamos billNumber
+    bill.billNumber = randomBillNumber();
+
+     //Obtenemos los datos del usuario
+     UsersResource.getUser(bill.id_client)
      .then((user => {
     
-        bill.username = user.nombre;
-        bill.surname = user.apellidos;
-        bill.id_cliente = id_cliente;
-     
+        bill.name = user.nombre;
+        bill.surnames = user.apellidos;
+    
     }));
 
      // Obtenemos los datos del vehiculo
      VehiclesResource.getVehicle(bill.id_vehicle)
-     .then((vehicle =>{
-         bill.vehicle = vehicle.tipo;
+     .then((vehicle_type =>{
+         bill.vehicle = vehicle_type.tipo;
      }));
 
     Bill.create(bill, (err) => {
