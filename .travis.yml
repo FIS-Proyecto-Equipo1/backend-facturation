@@ -15,7 +15,5 @@ deploy:
   provider: script
   skip_clean_up: true
   script:
-    heroku container:login;
-    heroku container:push web -a $HEROKU_APP_NAME;
-    heroku container:release web -a $HEROKU_APP_NAME;
-  branch: master
+    npm test;
+  branch: main
