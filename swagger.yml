@@ -6,8 +6,8 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "https://backend-facturacion-1.herokuapp.com/"
-basePath: "/v1/api"
+host: "backend-facturacion-1.herokuapp.com"
+basePath: "/api/v1"
 tags:
 - name: "bill"
   description: "Everything about your Bills"
@@ -65,11 +65,6 @@ paths:
       summary: "Finds Bills"
       description: "Returns all bills"
       operationId: "findBills"
-      parameters:
-       - name: "api_key"
-         in: "header"
-         required: false
-         type: "string"
       produces:
       - "application/json"
       responses:
@@ -196,10 +191,16 @@ definitions:
       billNumber:
         type: "string"
         example: "UR12340"
+      id_client: 
+        type: "string"
+        example: "5ffaf5695dc3ce0fa81f16b2"
       name:
         type: "string"
       surnames:
         type: "string"
+      id_vehicle: 
+        type: "string"
+        example: "6743TRG"
       vehicle:
         type: "string"
         enum: 
