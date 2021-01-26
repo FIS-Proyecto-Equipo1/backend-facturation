@@ -3,9 +3,6 @@ const request = require('request-promise-native').defaults({json: true})
 
 
 class VehiclesResource {
-    static STATUS_DISPONIBLE = "DISPONIBLE"
-    static STATUS_RESERVADO = "RESERVADO"
-    static STATUS_TRAYECTO = "TRAYECTO"
     
     static vehiclesUrl(resourceUrl) {
         const vehiclesServer = (process.env.VEHICULOS_URL || 'https://urbanio-vehiculos.herokuapp.com');
