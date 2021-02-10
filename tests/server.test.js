@@ -62,9 +62,9 @@ describe("Bills API", () => {
             dbFindOne.mockImplementation((filter, callback) => {
                 callback(null, null);
             })
-            return request(app).get('/api/v1/bills/zxwef').then((response) => {
+            return request(app).get('/api/v1/bills/US9999').then((response) => {
                 expect(response.statusCode).toBe(404);
-                expect(dbFindOne).toBeCalledWith({ "billNumber": "zxwef" }, expect.any(Function));
+                expect(dbFindOne).toBeCalledWith({ "billNumber": "US9999" }, expect.any(Function));
             });
         })
     });
@@ -72,8 +72,8 @@ describe("Bills API", () => {
     describe("POST /bills", () => {
         const bill = {
             "id_client": "5ffaf5695dc3ce0fa81f16b2",
-            "id_vehicle": "4532CDR",
-            "duration": "00:15:00",
+            "id_vehicle": "6743TRG",
+            "duration": "00:12:00",
             "billStatus": "No pagado"
         };
         let dbInsert;
@@ -113,6 +113,7 @@ describe("Bills API", () => {
         beforeAll(() => {
             const bills = [
                 new Bill({
+                    "billNumber":"US3233",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
                     "id_vehicle": "4532CDR",
                     "duration": "00:15:00",
@@ -120,6 +121,7 @@ describe("Bills API", () => {
                 }),
 
                 new Bill({
+                    "billNumber":"US3233",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
                     "id_vehicle": "4532CDR",
                     "duration": "00:15:00",
@@ -147,10 +149,10 @@ describe("Bills API", () => {
             dbDelete.mockImplementation(({ }, callback) => {
                 callback(null, null);
             });
-            return request(app).delete('/api/v1/bills/rgerg').then((response) => {
+            return request(app).delete('/api/v1/bills/US9999').then((response) => {
                 expect(response.statusCode).toBe(404);
                 expect(String(response.body)).toMatch(String({}));
-                expect(dbDelete).toBeCalledWith({ "billNumber": "rgerg" }, expect.any(Function));
+                expect(dbDelete).toBeCalledWith({ "billNumber": "US9999" }, expect.any(Function));
             });
         });
     });
@@ -163,12 +165,14 @@ describe("Bills API", () => {
         beforeAll(() => {
             const bills = [
                 new Bill({
+                    "billNumber":"US3233",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
                     "id_vehicle": "4532CDR",
                     "duration": "00:15:00",
                     "billStatus": "No pagado"
                 }),
                 new Bill({
+                    "billNumber":"US3233",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
                     "id_vehicle": "4532CDR",
                     "duration": "00:30:00",
@@ -178,10 +182,11 @@ describe("Bills API", () => {
 
             billOK = bills[0];
             billUp = new Bill({
+                "billNumber":"US3233",
                 "id_client": "5ffaf5695dc3ce0fa81f16b2",
                 "id_vehicle": "4532CDR",
                 "duration": "00:15:00",
-                "billStatus": "No pagado"
+                "billStatus": "Pagado"
             });
 
             dbPut = jest.spyOn(Bill, "findOneAndUpdate");

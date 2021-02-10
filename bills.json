@@ -1,9 +1,5 @@
-{"billNumber": "111122", 
-"name": "Maria", 
-"surnames": "Suárez", 
-"vehicle":"coche", 
-"duration": "1", 
-"rate":"3",
-"amount":"3,4" ,
-"billStatus":"pagado"
+{"id_client": "5ffaf5695dc3ce0fa81f16b2",
+    "id_vehicle": "6743TRG",
+    "duration": "00:12:00",
+    "billStatus": "No pagado"
 }

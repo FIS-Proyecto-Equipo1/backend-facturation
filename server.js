@@ -23,13 +23,14 @@ app.get("/", (req, res) => {
 });
 
 function randomBillNumber() {
-    let bill_Number = "US" + getRandomArbitrary(00000, 99999);
+    let bill_Number = "US" + getRandomArbitrary("00000", "99999");
     console.log(bill_Number);
     return bill_Number;
 }
 
 function getRandomArbitrary(min, max) {
-    return parseInt(Math.random() * (max - min) + min);
+    
+    return parseString(Math.random() * (parseInt(max - min)) + parseInt(min));
 }
 
 app.get(BASE_API_PATH + "/bills", (req, res) => {
