@@ -69,7 +69,7 @@ describe("Bills API", () => {
         })
     });
 
-    describe("POST /bills", () => {
+/*    describe("POST /bills", () => {
         const bill = {
             "id_client": "5ffaf5695dc3ce0fa81f16b2",
             "id_vehicle": "6743TRG",
@@ -104,7 +104,7 @@ describe("Bills API", () => {
                 expect(response.statusCode).toBe(500);
             });
         });
-    });
+    });*/
 
     describe("DELETE /bills/:billNumber", () => {
         let dbDelete;
