@@ -13,6 +13,9 @@
   },
   "author": "Carlos Gallego y Julia Palacios",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yulipal/FacturationService/issues"
+  },
   "homepage": "https://github.com/yulipal/FacturationService#readme",
   "dependencies": {
     "cors": "^2.8.5",
