@@ -193,7 +193,8 @@ app.post(BASE_API_PATH + "/bills", (req, res) => {
     if(bill.billNumber == null){
     bill.billNumber = randomBillNumber();
     }
-
+    // En el caso de que se cree la factura a partir de otro microservicio
+    if(bill.id_client != null){
     //Obtenemos los datos del usuario
     UsersResource.getUser(bill.id_client)
         .then((user => {
@@ -219,6 +220,21 @@ app.post(BASE_API_PATH + "/bills", (req, res) => {
                     });
                 }));
         }));
+    }
+    // En el caso de que se cree la factura desde el front
+    else{
+        bill.rate = rateCalculation(bill.vehicle)
+        bill.amount = amountCalculation(bill.duration,bill.vehicle)
+        Bill.create(bill, (err) => {
+            console.log(bill);
+            if (err) {
+                console.log(Date() + "-" + err);
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(201);
+            }
+        });
+    }
 });
 
 app.delete(BASE_API_PATH + "/bills/:billNumber", (req, res) => {
