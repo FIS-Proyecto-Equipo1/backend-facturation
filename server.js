@@ -34,8 +34,7 @@ function getRandomArbitrary(min, max) {
 }
 
 app.get(BASE_API_PATH + "/bills", (req, res) => {
-    idCliente = req.header('x-user');
-    console.log(`user: ${idCliente}`);
+
     console.log(Date() + " - GET /bills");
 
     Bill.find(req.query, (err, bills) => {
