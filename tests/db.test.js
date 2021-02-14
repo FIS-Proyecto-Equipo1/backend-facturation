@@ -16,15 +16,15 @@ describe('Bill db connection', ()=>{
 
     it('writes a bill in the DB', (done)=>{
         const bill = new Bill({ 
-            "billNumber":"US11112",
+            "billNumber": "US67864",
             "id_client": "5ffaf5695dc3ce0fa81f16b2",
-            "name":"Gonzalo",
-            "surnames":"Mora Mora",
+            "name": "Juan Luis",
+            "surnames": "Montes",
             "id_vehicle": "6743TRG",
-            "vehicle":"Car",
+            "vehicle": "Patin",
             "duration": "00:12:00",
-            "rate":"2",
-            "amount":"1.2",
+            "rate": "1",
+            "amount": 1.25,
             "billStatus": "No pagado" })
         bill.save((err, bill) => {
             expect(err).toBeNull();

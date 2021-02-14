@@ -196,6 +196,15 @@ app.post(BASE_API_PATH + "/bills", (req, res) => {
     console.log(Date() + " - POST /bills");
     var bill = req.body;
 
+    rolCliente = req.header('rol')
+    
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to post without priviledges");
+        res.status(403).send()
+    }
+    else
+    { 
+
     //Asignamos billNumber
     if(bill.billNumber == null){
     bill.billNumber = randomBillNumber();
@@ -242,11 +251,19 @@ app.post(BASE_API_PATH + "/bills", (req, res) => {
             }
         });
     }
+}
 });
 
 app.delete(BASE_API_PATH + "/bills/:billNumber", (req, res) => {
     let billNumber = req.params.billNumber;
+    rolCliente = req.header('rol')
 
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to post without priviledges");
+        res.status(403).send()
+    }
+    else
+    { 
     Bill.findOneAndDelete({ "billNumber": billNumber }, (err, billDelete) => {
         if (err == null && billDelete == null) {
             var auxErr = new Error("Bill not found " + billNumber);
@@ -255,18 +272,28 @@ app.delete(BASE_API_PATH + "/bills/:billNumber", (req, res) => {
         }
         else if (err) {
             console.log(err);
-            res.sendStatus(500)
+            res.sendStatus(500);
         } else {
             console.log(Date() + " DELETE /bills/" + billNumber)
             res.status(204).send({ message: "Bill " + billNumber + " deleted" });
         }
     });
+}
 });
 
 app.put(BASE_API_PATH + "/bills/:billNumber", (req, res) => {
     console.log(Date() + " - PUT /bills/billNumber={billNumber}");
     let billNumber = req.params.billNumber;
     let update_bill = req.body;
+    rolCliente = req.header('rol')
+
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to post without priviledges");
+        res.status(403).send()
+    }
+    else
+    { 
+    
     Bill.findOneAndUpdate({ "billNumber": billNumber }, update_bill, { runValidators: true }, (err, bill_update) => {
         if (err == null && bill_update == null)
             err = new Error("Bill not found " + billNumber);
@@ -279,6 +306,8 @@ app.put(BASE_API_PATH + "/bills/:billNumber", (req, res) => {
         }
 
     });
+}
+
 });
 
 module.exports = app;

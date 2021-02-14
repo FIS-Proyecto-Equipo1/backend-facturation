@@ -100,6 +100,11 @@ describe("Bills API", () => {
         beforeEach(() => {
             dbInsert = jest.spyOn(Bill, "create");
         })
+        it("Should return unauthourized", () => {
+            return request(app).get('/api/v1/bills').then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        })
 
 
         it("should add a new bill", () => {
@@ -107,7 +112,7 @@ describe("Bills API", () => {
                 callback(false);
             });
 
-            return request(app).post('/api/v1/bills').send(bill).then((response) => {
+            return request(app).post('/api/v1/bills').set({rol:"ADMIN"}).send(bill).then((response) => {
                 expect(response.statusCode).toBe(201);
                 expect(dbInsert).toBeCalledWith(billPosted, expect.any(Function));
             });
@@ -119,7 +124,7 @@ describe("Bills API", () => {
                 callback(true);
             });
 
-            return request(app).post('/api/v1/bills').send(bill).then((response) => {
+            return request(app).post('/api/v1/bills').set({rol:"ADMIN"}).send(bill).then((response) => {
                 expect(response.statusCode).toBe(500);
             });
         });
@@ -140,7 +145,7 @@ describe("Bills API", () => {
                 }),
 
                 new Bill({
-                    "billNumber":"US3233",
+                    "billNumber":"AAAAA",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
                     "id_vehicle": "4532CDR",
                     "duration": "00:15:00",
@@ -155,9 +160,14 @@ describe("Bills API", () => {
                 callback(null, billOK);
             });
         });
+        it("Should return unauthourized", () => {
+            return request(app).delete('/api/v1/bills/' + billOK.billNumber).then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        })
 
         it('should delete one bill', () => {
-            return request(app).delete('/api/v1/bills/' + billOK.billNumber).then((response) => {
+            return request(app).delete('/api/v1/bills/' + billOK.billNumber).set({rol:"ADMIN"}).then((response) => {
                 expect(response.statusCode).toBe(204);
                 expect(String(response.body)).toMatch(String(billOK.cleanup()));
                 expect(dbDelete).toBeCalledWith({ "billNumber": billOK.billNumber }, expect.any(Function));
@@ -168,7 +178,7 @@ describe("Bills API", () => {
             dbDelete.mockImplementation(({ }, callback) => {
                 callback(null, null);
             });
-            return request(app).delete('/api/v1/bills/US9999').then((response) => {
+            return request(app).delete('/api/v1/bills/US9999').set({rol:"ADMIN"}).then((response) => {
                 expect(response.statusCode).toBe(404);
                 expect(String(response.body)).toMatch(String({}));
                 expect(dbDelete).toBeCalledWith({ "billNumber": "US9999" }, expect.any(Function));
@@ -180,31 +190,44 @@ describe("Bills API", () => {
         let dbPut;
         let billOK;
         let billUp;
+        let billKO;
 
         beforeAll(() => {
-            const bills = [
-                new Bill({
-                    "billNumber":"US3233",
+                billOK = new Bill({
+                    "billNumber": "US67864",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
-                    "id_vehicle": "4532CDR",
-                    "duration": "00:15:00",
-                    "billStatus": "No pagado"
-                }),
-                new Bill({
-                    "billNumber":"US3233",
+                    "name": "Juan Luis",
+                    "surnames": "Montes",
+                    "id_vehicle": "6743TRG",
+                    "vehicle": "Patin",
+                    "duration": "00:12:00",
+                    "rate": "1",
+                    "amount": 1.25,
+                    "billStatus": "Pagado"
+                });
+                billKO = new Bill({
+                    "billNumber": "US67864",
                     "id_client": "5ffaf5695dc3ce0fa81f16b2",
+                    "name": "Juan Luis",
+                    "surnames": "Montes",
                     "id_vehicle": "4532CDR",
-                    "duration": "00:30:00",
-                    "billStatus": "No pagado"
-                }),
-            ];
-
-            billOK = bills[0];
-            billUp = new Bill({
+                    "vehicle": "Patin",
+                    "duration": "00:12:00",
+                    "rate": "1",
+                    "amount": 1.25,
+                    "billStatus": "Pagado"
+                });
+                billUp = new Bill({
+                "billNumber": "US67864",
                 "id_client": "5ffaf5695dc3ce0fa81f16b2",
-                "id_vehicle": "4532CDR",
-                "duration": "00:15:00",
-                "billStatus": "Pagado"
+                "name": "Juan Luis",
+                "surnames": "Montes",
+                "id_vehicle": "6743TRG",
+                "vehicle": "Patin",
+                "duration": "00:12:00",
+                "rate": "1",
+                "amount": 1.25,
+                "billStatus": "No Pagado"
             });
 
             dbPut = jest.spyOn(Bill, "findOneAndUpdate");
@@ -212,12 +235,24 @@ describe("Bills API", () => {
                 callback(null, billUp);
             });
         });
-
         it('should modify and return one bill', () => {
-            return request(app).put('/api/v1/bills/' + billOK.billNumber).send(billUp).then((response) => {
+            return request(app).put('/api/v1/bills/' + billOK.billNumber).set({rol:"ADMIN"}).send(billUp).then((response) => {
                 expect(response.statusCode).toBe(200);
                 expect(String(response.body)).toMatch(String(billOK.cleanup()));
                 expect(dbPut).toBeCalledWith({ "billNumber": billOK.billNumber }, expect.any(Object), { "runValidators": true }, expect.any(Function));
+            });
+        });
+        it("Should return unauthourized", () => {
+            return request(app).put('/api/v1/bills/'+ billOK.billNumber).then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        })
+        it('should return 500 if any error occurred', () => {
+            dbPut.mockImplementation((c, callback) => {
+                callback(true);
+            });
+            return request(app).put('/api/v1/bills/'+ billOK.billNumber).set({rol:"ADMIN"}).send(billKO).then((response) => {
+                expect(response.statusCode).toBe(500);
             });
         });
     });
