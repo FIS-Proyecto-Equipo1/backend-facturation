@@ -49,9 +49,14 @@ describe("Bills API", () => {
             });
 
         });
+        it("Should return unauthourized", () => {
+            return request(app).get('/api/v1/bills').then((response) => {
+                expect(response.statusCode).toBe(403);
+            });
+        })
 
         it("Should return bills", () => {
-            return request(app).get('/api/v1/bills').then((response) => {
+            return request(app).get('/api/v1/bills').set({rol:"ADMIN"}).then((response) => {
                 expect(response.statusCode).toBe(200);
                 expect(response.body).toBeArrayOfSize(2);
                 expect(dbFind).toBeCalledWith({}, expect.any(Function));
@@ -62,7 +67,7 @@ describe("Bills API", () => {
             dbFindOne.mockImplementation((filter, callback) => {
                 callback(null, null);
             })
-            return request(app).get('/api/v1/bills/US9999').then((response) => {
+            return request(app).get('/api/v1/bills/US9999').set({rol:"ADMIN"}).then((response) => {
                 expect(response.statusCode).toBe(404);
                 expect(dbFindOne).toBeCalledWith({ "billNumber": "US9999" }, expect.any(Function));
             });
