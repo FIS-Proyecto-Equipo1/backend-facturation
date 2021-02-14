@@ -69,12 +69,26 @@ describe("Bills API", () => {
         })
     });
 
-/*    describe("POST /bills", () => {
+    describe("POST /bills", () => {
         const bill = {
+            "billNumber": "US17768",
             "id_client": "5ffaf5695dc3ce0fa81f16b2",
             "id_vehicle": "6743TRG",
             "duration": "00:12:00",
             "billStatus": "No pagado"
+        };
+
+        const billPosted = {
+        "amount": 1.25,
+        "billNumber": "US17768",
+        "billStatus": "No pagado",
+        "duration": "00:12:00",
+        "id_client": "5ffaf5695dc3ce0fa81f16b2",
+        "id_vehicle": "6743TRG",
+        "name": "Juan Luis",
+        "rate": 1,
+        "surnames": "Montes",
+        "vehicle": "Patin",
         };
         let dbInsert;
 
@@ -90,7 +104,7 @@ describe("Bills API", () => {
 
             return request(app).post('/api/v1/bills').send(bill).then((response) => {
                 expect(response.statusCode).toBe(201);
-                expect(dbInsert).toBeCalledWith(bill, expect.any(Function));
+                expect(dbInsert).toBeCalledWith(billPosted, expect.any(Function));
             });
 
         });
@@ -104,7 +118,7 @@ describe("Bills API", () => {
                 expect(response.statusCode).toBe(500);
             });
         });
-    });*/
+    });
 
     describe("DELETE /bills/:billNumber", () => {
         let dbDelete;
@@ -182,7 +196,6 @@ describe("Bills API", () => {
 
             billOK = bills[0];
             billUp = new Bill({
-                "billNumber":"US3233",
                 "id_client": "5ffaf5695dc3ce0fa81f16b2",
                 "id_vehicle": "4532CDR",
                 "duration": "00:15:00",

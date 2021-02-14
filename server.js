@@ -30,7 +30,7 @@ function randomBillNumber() {
 
 function getRandomArbitrary(min, max) {
     
-    return parseString(Math.random() * (parseInt(max - min)) + parseInt(min));
+    return Math.floor(Math.random() * (parseInt(max - min)) + parseInt(min));
 }
 
 app.get(BASE_API_PATH + "/bills", (req, res) => {
@@ -188,10 +188,11 @@ function amountCalculation (duration, vehicle){
 app.post(BASE_API_PATH + "/bills", (req, res) => {
     console.log(Date() + " - POST /bills");
     var bill = req.body;
-    idCliente = req.header('x-user')
 
     //Asignamos billNumber
+    if(bill.billNumber == null){
     bill.billNumber = randomBillNumber();
+    }
 
     //Obtenemos los datos del usuario
     UsersResource.getUser(bill.id_client)
@@ -199,7 +200,6 @@ app.post(BASE_API_PATH + "/bills", (req, res) => {
             console.log(user);
             bill.name = user.nombre;
             bill.surnames = user.apellidos;
-
 
             // Obtenemos los datos del vehiculo
             VehiclesResource.getVehicle(bill.id_vehicle)
