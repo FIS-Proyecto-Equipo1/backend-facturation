@@ -34,10 +34,15 @@ function getRandomArbitrary(min, max) {
 }
 
 app.get(BASE_API_PATH + "/bills", (req, res) => {
-    idCliente = req.header('x-user');
-    console.log(`user: ${idCliente}`);
     console.log(Date() + " - GET /bills");
-
+    rolCliente = req.header('rol')
+    
+    if (rolCliente !== "ADMIN"){
+        console.log(Date()+" - Try to post without priviledges");
+        res.status(403 ).send()
+    }
+    else
+    { 
     Bill.find(req.query, (err, bills) => {
         if (err) {
             console.log(Date() + " - " + err);
@@ -48,7 +53,7 @@ app.get(BASE_API_PATH + "/bills", (req, res) => {
                 return bill.cleanup();
             }));
         }
-    })
+    })}
 });
 
 
