@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 const Bill = require('./bills');
 const { updateOne, findByIdAndUpdate } = require('./bills');
 const VehiclesResource = require('./vehiclesResource');
@@ -9,6 +10,7 @@ const UsersResource = require('./usersResource');
 var BASE_API_PATH = "/api/v1";
 
 var app = express();
+app.use(cors());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -39,7 +41,7 @@ app.get(BASE_API_PATH + "/bills", (req, res) => {
     
     if (rolCliente !== "ADMIN"){
         console.log(Date()+" - Try to post without priviledges");
-        res.status(403 ).send()
+        res.status(403).send()
     }
     else
     { 
